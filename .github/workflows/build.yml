@@ -43,12 +43,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Garodzeb_PracticoSonarCube" /o:"sonarcubepractico-garodzeb" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"         
-          ..\initializeAKS.ps1
-          ..\deployKEDA.ps1
-          ..\deployRabbitMQ.ps1
-          ..\deployTechTalks-AKS.ps1
-          kubectl apply -R -f .
-          ..\deployAutoScaler.ps1
-          ..\deployAll.ps1
+          dotnet build .
           kubectl port-forward svc/rabbitmq 15672:15672
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
